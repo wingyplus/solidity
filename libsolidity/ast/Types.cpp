@@ -710,6 +710,9 @@ TypePointer RationalNumberType::binaryOperatorResult(Token::Value _operator, Typ
 			else if (other.m_value > numeric_limits<uint32_t>::max())
 				return TypePointer();
 			uint32_t exponent = other.m_value.numerator().convert_to<uint32_t>();
+			// Don't allow the result to take more than 1Mb of memory
+			if (((1024 * 1024 * 8) / m_value.numerator()) > exponent)
+				return TypePointer();
 			value = m_value.numerator() * pow(bigint(2), exponent);
 			break;
 		}
