@@ -7231,6 +7231,28 @@ BOOST_AUTO_TEST_CASE(mem_resize_is_not_paid_at_call)
 	BOOST_CHECK(callContractFunction("f(address)", cAddrOpt) == encodeArgs(u256(7)));
 }
 
+BOOST_AUTO_TEST_CASE(shift_constant_left)
+{
+	char const* sourceCode = R"(
+		contract C {
+			uint public a = 0x42 << 8;
+		}
+	)";
+	compileAndRun(sourceCode, 0, "C");
+	BOOST_CHECK(callContractFunction("a()") == encodeArgs(u256(0x4200)));
+}
+
+BOOST_AUTO_TEST_CASE(shift_constant_right)
+{
+	char const* sourceCode = R"(
+		contract C {
+			uint public a = 0x4200 >> 8;
+		}
+	)";
+	compileAndRun(sourceCode, 0, "C");
+	BOOST_CHECK(callContractFunction("a()") == encodeArgs(u256(0x42)));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }
