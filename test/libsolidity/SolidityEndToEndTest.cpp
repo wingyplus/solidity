@@ -7304,7 +7304,7 @@ BOOST_AUTO_TEST_CASE(boolean_operations_on_fixed_point){
 			function equalUFixed() returns (bool) {
 				ufixed a = 3.5;
 				ufixed240x16 b = 3.5;
-				ufixed16x240 c = 3.5
+				ufixed16x240 c = 3.5;
 				if (a == b && b == c) {
 					return true;
 				}
@@ -7331,7 +7331,7 @@ BOOST_AUTO_TEST_CASE(boolean_operations_on_fixed_point){
 			function equalFixed() returns (bool) {
 				fixed a = 3.5;
 				fixed240x16 b = 3.5;
-				fixed16x240 c = 3.5
+				fixed16x240 c = 3.5;
 				if (a == b && b == c) {
 					return true;
 				}
