@@ -7277,7 +7277,7 @@ BOOST_AUTO_TEST_CASE(int_to_fixed_type)
 BOOST_AUTO_TEST_CASE(boolean_operations_on_fixed_point){
 	char const* sourceCode = R"(
 		contract C {
-			function greater() returns (bool) {
+			function greaterInts() returns (bool) {
 				ufixed a = 4.5;
 				uint128 b = 4;
 				if (a > b) {
@@ -7285,7 +7285,7 @@ BOOST_AUTO_TEST_CASE(boolean_operations_on_fixed_point){
 				}
 				return false;
 			}
-			function equal() returns (bool) {
+			function equalInts() returns (bool) {
 				ufixed a = 4;
 				uint128 b = 4;
 				if (b == a) {
@@ -7293,7 +7293,7 @@ BOOST_AUTO_TEST_CASE(boolean_operations_on_fixed_point){
 				}
 				return false;
 			}
-			function lessThan() returns (bool) {
+			function lessThanInts() returns (bool) {
 				ufixed a = 3.5;
 				uint128 b = 4;
 				if (a < b) {
@@ -7301,12 +7301,72 @@ BOOST_AUTO_TEST_CASE(boolean_operations_on_fixed_point){
 				}
 				return false;
 			}
+			function equalUFixed() returns (bool) {
+				ufixed a = 3.5;
+				ufixed240x16 b = 3.5;
+				ufixed16x240 c = 3.5
+				if (a == b && b == c) {
+					return true;
+				}
+				return false
+			}
+			function greaterUFixed() returns (bool) {
+				ufixed a = 2.5;
+				ufixed240x16 b = 3.5;
+				ufixed16x240 c = 1.5;
+				if (b > a && a > c) {
+					return true
+				}
+				return false;
+			}
+			function lessThanUFixed() returns (bool) {
+				ufixed a = 2.5;
+				ufixed240x16 b = 3.5;
+				ufixed16x240 c = 1.5;
+				if (a < b && c < a) {
+					return true;
+				}
+				return false;
+			}
+			function equalFixed() returns (bool) {
+				fixed a = 3.5;
+				fixed240x16 b = 3.5;
+				fixed16x240 c = 3.5
+				if (a == b && b == c) {
+					return true;
+				}
+				return false
+			}
+			function greaterFixed() returns (bool) {
+				fixed a = 2.5;
+				fixed240x16 b = -3.5;
+				fixed16x240 c = 1.5;
+				if (a > b && a > c) {
+					return true
+				}
+				return false;
+			}
+			function lessThanFixed() returns (bool) {
+				fixed a = 2.5;
+				fixed240x16 b = -3.5;
+				fixed16x240 c = 1.5;
+				if (b < a && c < a) {
+					return true;
+				}
+				return false;
+			}
 		}
 	)";
 	compileAndRun(sourceCode, 0, "C");
-	BOOST_CHECK(callContractFunction("greater()") == encodeArgs(true));
-	BOOST_CHECK(callContractFunction("equal()") == encodeArgs(true));
-	BOOST_CHECK(callContractFunction("lessThan()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("greaterInts()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("equalInts()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("lessThanInts()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("greaterUFixed()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("equalUFixed()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("lessThanUFixed()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("greaterFixed()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("equalFixed()") == encodeArgs(true));
+	BOOST_CHECK(callContractFunction("lessThanFixed()") == encodeArgs(true));
 }
 
 BOOST_AUTO_TEST_CASE(var_and_fixed_one_third_equivalent)
