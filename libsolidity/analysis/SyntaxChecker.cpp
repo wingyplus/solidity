@@ -52,12 +52,35 @@ void SyntaxChecker::endVisit(SourceUnit const& _sourceUnit)
 {
 	if (!m_versionPragmaFound)
 	{
+		SemVerVersion recommendedVersion{string(VersionString)};
+		bool const isPrerelease = !recommendedVersion.prerelease.empty();
+		if (isPrerelease)
+		{
+			if (recommendedVersion.numbers[2] > 0)
+				recommendedVersion.numbers[2]--;
+			else if (recommendedVersion.numbers[1] > 0)
+				recommendedVersion.numbers[1]--;
+		}
+		string recommendedVersionStr =
+			to_string(recommendedVersion.numbers[0]) +
+			string(".") +
+			to_string(recommendedVersion.numbers[1]) +
+			string(".") +
+			to_string(recommendedVersion.numbers[2]);
+
 		auto err = make_shared<Error>(Error::Type::Warning);
 		*err <<
 			errinfo_sourceLocation(_sourceUnit.location()) <<
 			errinfo_comment(
 				string("Source file does not specify required compiler version! ") +
-				string("Consider adding \"pragma solidity ^") + VersionNumber + string(";\".")
+				string("Consider adding \"pragma solidity ^") + recommendedVersionStr + string(";\"") +
+				(isPrerelease ?
+					string(
+						" (version modified to work with this prerelease version - "
+						"please do not use prerelease versions in production)."
+					) :
+					string("")
+				)
 			);
 		m_errors.push_back(err);
 	}
