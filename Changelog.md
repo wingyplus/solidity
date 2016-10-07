@@ -10,6 +10,9 @@ Bugfixes:
  * Disallow unknown options in `solc`
  * Inline assembly: support the `address` opcode
  * Inline assembly: fix parsing of assignment after a label.
+ * Inline assembly: external variables of unsupported type (such as `this`, `super`, etc.)
+   are properly detected. They are not available in inline assembly and can be used as
+   local variable names.
 
 ### 0.4.2 (2016-09-17)
 
