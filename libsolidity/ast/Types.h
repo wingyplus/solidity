@@ -881,6 +881,7 @@ public:
 	std::vector<std::string> const returnParameterTypeNames(bool _addDataLocation) const;
 	/// @returns the "self" parameter type for a bound function
 	TypePointer selfType() const;
+	virtual bool hasSelfType() const { return bound() && m_parameterTypes.size() > 0; }
 
 	virtual bool operator==(Type const& _other) const override;
 	virtual std::string toString(bool _short) const override;
