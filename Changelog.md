@@ -8,6 +8,7 @@ Features:
 
 Bugfixes:
  * Disallow unknown options in `solc`
+ * Proper type checking for bound functions.
  * Inline assembly: support the `address` opcode
  * Inline assembly: fix parsing of assignment after a label.
 
