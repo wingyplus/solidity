@@ -29,7 +29,7 @@
 #include <vector>
 #include <functional>
 #include <boost/noncopyable.hpp>
-#include <json/json.h>
+#include <libdevcore/jsoncpp.h>
 #include <libdevcore/Common.h>
 #include <libdevcore/FixedHash.h>
 #include <libevmasm/SourceLocation.h>

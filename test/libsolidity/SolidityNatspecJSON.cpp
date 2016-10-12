@@ -22,7 +22,7 @@
 
 #include "../TestHelper.h"
 #include <string>
-#include <json/json.h>
+#include <libdevcore/jsoncpp.h>
 #include <libsolidity/interface/CompilerStack.h>
 #include <libsolidity/interface/Exceptions.h>
 #include <libdevcore/Exceptions.h>

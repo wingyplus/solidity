@@ -23,7 +23,7 @@
 #include <string>
 #include <functional>
 #include <iostream>
-#include <json/json.h>
+#include <libdevcore/jsoncpp.h>
 #include <libdevcore/Common.h>
 #include <libdevcore/CommonData.h>
 #include <libdevcore/CommonIO.h>

@@ -26,7 +26,7 @@
 #include <libevmasm/BlockDeduplicator.h>
 #include <libevmasm/ConstantOptimiser.h>
 #include <libevmasm/GasMeter.h>
-#include <json/json.h>
+
 using namespace std;
 using namespace dev;
 using namespace dev::eth;

@@ -31,7 +31,7 @@
 #include <libevmasm/AssemblyItem.h>
 #include <libevmasm/LinkerObject.h>
 #include "Exceptions.h"
-#include <json/json.h>
+#include <libdevcore/jsoncpp.h>
 
 namespace dev
 {
