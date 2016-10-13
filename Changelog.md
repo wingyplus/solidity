@@ -2,17 +2,16 @@
 
 Features:
 
- * Inline assembly: support both `sucide` and `selfdestruct` opcodes
-   (note: `suicide` is deprecated)
- * Include `keccak256()` as an alias to `sha3()`
+ * Inline assembly: support both ``sucide`` and ``selfdestruct`` opcodes
+   (note: ``suicide`` is deprecated)
+ * Include ``keccak256()`` as an alias to ``sha3()``
 
 Bugfixes:
- * Disallow unknown options in `solc`
- * Inline assembly: support the `address` opcode
+ * Disallow unknown options in ``solc``
+ * Inline assembly: support the ``address`` opcode
  * Inline assembly: fix parsing of assignment after a label.
- * Inline assembly: external variables of unsupported type (such as `this`, `super`, etc.)
-   are properly detected. They are not available in inline assembly and can be used as
-   local variable names.
+ * Inline assembly: external variables of unsupported type (such as ``this``, ``super``, etc.)
+   are properly detected as unusable.
 
 ### 0.4.2 (2016-09-17)
 
