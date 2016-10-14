@@ -1146,11 +1146,6 @@ bool TypeChecker::visit(FunctionCall const& _functionCall)
 	else
 		_functionCall.annotation().type = make_shared<TupleType>(functionType->returnParameterTypes());
 
-	if (functionType->bound() && !functionType->hasSelfType()) {
-		typeError(_functionCall.location(), "Bound function missing self type");
-		return false;
-	}
-
 	TypePointers parameterTypes = functionType->parameterTypes();
 	if (!functionType->takesArbitraryParameters() && parameterTypes.size() != arguments.size())
 	{
@@ -1360,23 +1355,12 @@ bool TypeChecker::visit(MemberAccess const& _memberAccess)
 	annotation.type = possibleMembers.front().type;
 
 	if (auto funType = dynamic_cast<FunctionType const*>(annotation.type.get())) {
-		if (funType->bound()) {
-			if (!funType->hasSelfType()) {
-				typeError(
-					_memberAccess.location(),
-					"Function \"" + memberName + "\" missing self type (" +
-					exprType->toString() + " or an implicitly convertible type)"
-				);
-				return false;
-			}
-			else if (!exprType->isImplicitlyConvertibleTo(*funType->selfType())) {
-				typeError(
-					_memberAccess.location(),
-					"Function \"" + memberName + "\" cannot be called on an object of type " +
-					exprType->toString() + " (expected " + funType->selfType()->toString() + ")"
-				);
-			}
-		}
+		if (funType->bound() && !exprType->isImplicitlyConvertibleTo(*funType->selfType()))
+			typeError(
+				_memberAccess.location(),
+				"Function \"" + memberName + "\" cannot be called on an object of type " +
+				exprType->toString() + " (expected " + funType->selfType()->toString() + ")"
+			);
 	}
 
 	if (exprType->category() == Type::Category::Struct)
