@@ -579,8 +579,9 @@ bool TypeChecker::visit(InlineAssembly const& _inlineAssembly)
 	// Inline assembly does not have its own type-checking phase, so we just run the
 	// code-generator and see whether it produces any errors.
 	// External references have already been resolved in a prior stage and stored in the annotation.
+	eth::Assembly assembly;
 	assembly::CodeGenerator codeGen(_inlineAssembly.operations(), m_errors);
-	codeGen.typeCheck([&](assembly::Identifier const& _identifier, eth::Assembly& _assembly, assembly::CodeGenerator::IdentifierContext _context) {
+	codeGen.typeCheck(assembly, [&](assembly::Identifier const& _identifier, eth::Assembly& _assembly, assembly::CodeGenerator::IdentifierContext _context) {
 		auto ref = _inlineAssembly.annotation().externalReferences.find(&_identifier);
 		if (ref == _inlineAssembly.annotation().externalReferences.end())
 			return false;
@@ -627,6 +628,22 @@ bool TypeChecker::visit(InlineAssembly const& _inlineAssembly)
 		}
 		return true;
 	});
+
+	int deposit = assembly.deposit();
+	if (deposit < 0)
+	{
+		warning(
+			_inlineAssembly.location(),
+			"Inline assembly block is not balanced. It takes " + toString(-deposit) + " item(s) from the stack."
+		);
+	}
+	else if (assembly.deposit() > 0)
+	{
+		warning(
+			_inlineAssembly.location(),
+			"Inline assembly block is not balanced. It leaves " + toString(deposit) + " item(s) on the stack."
+		);
+	}
 	return false;
 }
 
