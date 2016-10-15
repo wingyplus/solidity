@@ -52,6 +52,7 @@ public:
 		m_parsedData(_parsedData), m_errors(_errors) {}
 	/// Performs type checks and @returns false on error.
 	/// Actually runs the full code generation but discards the result.
+	bool typeCheck(eth::Assembly& _assembly, IdentifierAccess const& _identifierAccess = IdentifierAccess());
 	bool typeCheck(IdentifierAccess const& _identifierAccess = IdentifierAccess());
 	/// Performs code generation and @returns the result.
 	eth::Assembly assemble(IdentifierAccess const& _identifierAccess = IdentifierAccess());

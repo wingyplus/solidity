@@ -265,14 +265,19 @@ private:
 	assembly::CodeGenerator::IdentifierAccess m_identifierAccess;
 };
 
-bool assembly::CodeGenerator::typeCheck(assembly::CodeGenerator::IdentifierAccess const& _identifierAccess)
+bool assembly::CodeGenerator::typeCheck(eth::Assembly& _assembly, assembly::CodeGenerator::IdentifierAccess const& _identifierAccess)
 {
 	size_t initialErrorLen = m_errors.size();
-	eth::Assembly assembly;
-	GeneratorState state(m_errors, assembly);
+	GeneratorState state(m_errors, _assembly);
 	(LabelOrganizer(state))(m_parsedData);
 	(CodeTransform(state, _identifierAccess))(m_parsedData);
 	return m_errors.size() == initialErrorLen;
+}
+
+bool assembly::CodeGenerator::typeCheck(IdentifierAccess const& _identifierAccess)
+{
+	eth::Assembly assembly;
+	return typeCheck(assembly, _identifierAccess);
 }
 
 eth::Assembly assembly::CodeGenerator::assemble(assembly::CodeGenerator::IdentifierAccess const& _identifierAccess)
